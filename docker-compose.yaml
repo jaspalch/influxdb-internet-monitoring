@@ -1,0 +1,32 @@
+version: '3'
+services:
+  influxdb:
+    image: influxdb:2.2.0
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+      - ./influxdb/templates:/templates/
+      - ./influxdb/init-templates.sh:/docker-entrypoint-initdb.d/init-templates.sh
+    ports:
+      - "8086:8086"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: 'setup'
+      DOCKER_INFLUXDB_INIT_USERNAME: 'influxdb_admin'
+      DOCKER_INFLUXDB_INIT_PASSWORD: 'supersecretpassword'
+      DOCKER_INFLUXDB_INIT_ORG: 'speedcheckers'
+      DOCKER_INFLUXDB_INIT_BUCKET: 'internet-bucket'
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: 'c3VwZXJzZWNyZXR0b2tlbgo='
+    restart: unless-stopped
+  telegraf:
+    build: ./telegraf
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+    environment:
+      DOCKER_INFLUXDB_INIT_ORG: 'speedcheckers'
+      DOCKER_INFLUXDB_INIT_BUCKET: 'internet-bucket'
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: 'c3VwZXJzZWNyZXR0b2tlbgo='
+    restart: unless-stopped
+    depends_on:
+      - influxdb
+
+volumes:
+  influxdb_data:

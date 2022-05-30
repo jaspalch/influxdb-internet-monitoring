@@ -1,0 +1,163 @@
+apiVersion: influxdata.com/v2alpha1
+kind: Dashboard
+metadata:
+    name: hungry-stonebraker-a1c001
+spec:
+    charts:
+      - axes:
+          - base: "10"
+            name: x
+            scale: linear
+          - base: "10"
+            label: Mbits/sec
+            name: "y"
+            scale: linear
+            suffix: b/s
+        colorizeRows: true
+        colors:
+          - hex: '#31C0F6'
+            id: b4fffac7-c2d1-429f-ae71-571e9a7b0589
+            name: Nineteen Eighty Four
+            type: scale
+          - hex: '#A500A5'
+            id: 7ed8b68e-4774-49e2-ad96-63529db33d9e
+            name: Nineteen Eighty Four
+            type: scale
+          - hex: '#FF7E27'
+            id: 980a56b0-c41b-42eb-bcf5-dfa9192e1699
+            name: Nineteen Eighty Four
+            type: scale
+        geom: line
+        height: 4
+        hoverDimension: auto
+        kind: Xy
+        legendColorizeRows: true
+        legendOpacity: 1
+        legendOrientationThreshold: 1e+08
+        name: Download (speedtest)
+        opacity: 1
+        orientationThreshold: 1e+08
+        position: overlaid
+        queries:
+          - query: |-
+                from(bucket: "internet-bucket")
+                  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+                  |> filter(fn: (r) => r["_measurement"] == "exec_speedtest")
+                  |> filter(fn: (r) => r["_field"] == "download")
+                  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+                  |> yield(name: "mean")
+        shade: true
+        staticLegend:
+            colorizeRows: true
+            opacity: 1
+            orientationThreshold: 1e+08
+            widthRatio: 1
+        width: 6
+        widthRatio: 1
+        xCol: _time
+        yCol: _value
+      - axes:
+          - base: "10"
+            name: x
+            scale: linear
+          - base: "10"
+            label: Status (0 = OK)
+            name: "y"
+            scale: linear
+        colorizeRows: true
+        colors:
+          - hex: '#31C0F6'
+            id: b4fffac7-c2d1-429f-ae71-571e9a7b0589
+            name: Nineteen Eighty Four
+            type: scale
+          - hex: '#A500A5'
+            id: 7ed8b68e-4774-49e2-ad96-63529db33d9e
+            name: Nineteen Eighty Four
+            type: scale
+          - hex: '#FF7E27'
+            id: 980a56b0-c41b-42eb-bcf5-dfa9192e1699
+            name: Nineteen Eighty Four
+            type: scale
+        geom: line
+        height: 4
+        hoverDimension: auto
+        kind: Xy
+        legendColorizeRows: true
+        legendOpacity: 1
+        legendOrientationThreshold: 1e+08
+        name: Connection Status (ping)
+        opacity: 1
+        orientationThreshold: 1e+08
+        position: overlaid
+        queries:
+          - query: |-
+                from(bucket: "internet-bucket")
+                  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+                  |> filter(fn: (r) => r["_measurement"] == "ping")
+                  |> filter(fn: (r) => r["_field"] == "result_code")
+                  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+                  |> yield(name: "mean")
+        staticLegend:
+            colorizeRows: true
+            opacity: 1
+            orientationThreshold: 1e+08
+            widthRatio: 1
+        width: 6
+        widthRatio: 1
+        xCol: _time
+        yCol: _value
+        yPos: 4
+      - axes:
+          - base: "10"
+            name: x
+            scale: linear
+          - base: "10"
+            label: Mbits/sec
+            name: "y"
+            scale: linear
+            suffix: b/s
+        colorizeRows: true
+        colors:
+          - hex: '#FD7A5D'
+            id: 8cc71668-3044-49df-ad8a-05836c19e613
+            name: Delorean
+            type: scale
+          - hex: '#5F1CF2'
+            id: 7792fde9-4889-463e-be69-ce4c99bbe722
+            name: Delorean
+            type: scale
+          - hex: '#4CE09A'
+            id: 77fcbde3-e282-48ae-8425-ee52cb2c4761
+            name: Delorean
+            type: scale
+        geom: line
+        height: 4
+        hoverDimension: auto
+        kind: Xy
+        legendColorizeRows: true
+        legendOpacity: 1
+        legendOrientationThreshold: 1e+08
+        name: Upload (speedtest)
+        opacity: 1
+        orientationThreshold: 1e+08
+        position: overlaid
+        queries:
+          - query: |-
+                from(bucket: "internet-bucket")
+                  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+                  |> filter(fn: (r) => r["_measurement"] == "exec_speedtest")
+                  |> filter(fn: (r) => r["_field"] == "upload")
+                  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+                  |> yield(name: "mean")
+        shade: true
+        staticLegend:
+            colorizeRows: true
+            opacity: 1
+            orientationThreshold: 1e+08
+            widthRatio: 1
+        width: 6
+        widthRatio: 1
+        xCol: _time
+        xPos: 6
+        yCol: _value
+    name: Internet Monitoring
