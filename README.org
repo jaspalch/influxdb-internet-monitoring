@@ -2,8 +2,8 @@
 Deploy ~telegraf~ and ~influxdb~ with ~docker-compose~ to monitor Internet speed and connectivity.
 
 ** Usage:
-- Clone this repo: ~git clone git@github.com:jaswraith/telegraf-speedcheck-docker-compose.git~
-- Customize passwords, etc. in the docker-compose.yaml file: ~cd telegraf-speedcheck-docker-compose; $EDITOR docker-compose.yaml~
+- Clone this repo: ~git clone https://github.com/jaswraith/influxdb-internet-monitoring.git~
+- Customize passwords, etc. in the docker-compose.yaml file: ~cd influxdb-internet-monitoring; $EDITOR docker-compose.yaml~
 - Start services with ~docker-compose up -d~
 
 *NOTE:* I was having trouble getting the [[https://github.com/influxdata/telegraf/tree/master/plugins/inputs/internet_speed][Telegraf internet speed monitor plugin]] to work with my Raspberry Pi, so I opted to use [[https://github.com/sivel/speedtest-cli][speedtest-cli]] instead.
